@@ -6,7 +6,7 @@ using TMPro;
 public class PlayerMovementTutorial : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    private float moveSpeed;
 
     public float groundDrag;
 
@@ -14,15 +14,23 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
+    public float walkSpeed;
+    public float sprintSpeed;
 
-    [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
+    [Header("Sliding")]
+    public float slideSpeed;
+    public float slideYScale;
+    private float startYScale;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode slideKey = KeyCode.LeftControl;
+
 
     [Header("Ground Check")]
-    public float playerHeight;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
     public LayerMask whatIsGround;
     bool grounded;
 
@@ -34,6 +42,14 @@ public class PlayerMovementTutorial : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    public MovementState state; 
+
+    public enum MovementState
+    {
+        walking,
+        sprinting,
+        air
+    }
 
     private void Start()
     {
@@ -41,12 +57,13 @@ public class PlayerMovementTutorial : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
+        startYScale = transform.localScale.y;
     }
 
     private void Update()
     {
         // ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, whatIsGround);
 
         MyInput();
         SpeedControl();
@@ -56,6 +73,7 @@ public class PlayerMovementTutorial : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+        StateHandler();
     }
 
     private void FixedUpdate()
@@ -76,6 +94,29 @@ public class PlayerMovementTutorial : MonoBehaviour
             Jump();
 
             Invoke(nameof(ResetJump), jumpCooldown);
+
+        }
+        if (Input.GetKey(slideKey))
+        {
+
+        }
+    }
+
+    private void StateHandler()
+    {
+        if (grounded && Input.GetKey(sprintKey))
+        {
+            state = MovementState.sprinting;
+            moveSpeed = sprintSpeed;
+        }
+        else if (grounded)
+        {
+            state |= MovementState.walking;
+            moveSpeed = walkSpeed;
+        }
+        else
+        {
+            state = MovementState.air;
         }
     }
 
