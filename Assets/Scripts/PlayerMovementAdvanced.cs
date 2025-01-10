@@ -50,7 +50,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     Rigidbody rb;
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    public float groundDistance = 0.1f;
 
     public MovementState state;
     public enum MovementState
