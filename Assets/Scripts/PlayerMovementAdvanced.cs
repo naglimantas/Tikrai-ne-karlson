@@ -13,6 +13,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
     public float groundDrag;
+    public float wallrunSpeed;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -57,12 +58,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         walking,
         sprinting,
-        crouching,
         sliding,
+        wallrunning,
         air
     }
 
     public bool sliding;
+    public bool wallrunning;
 
     private void Start()
     {
@@ -126,7 +128,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StateHandler()
     {
-
+        if(wallrunning)
+        {
+            state = MovementState.wallrunning;
+            desiredMoveSpeed = wallrunSpeed;
+        }
         if(sliding)
         {
             state = MovementState.sliding;
@@ -137,28 +143,19 @@ public class PlayerMovementAdvanced : MonoBehaviour
             else
                 desiredMoveSpeed = sprintSpeed;
         }
-        // Mode - Crouching
-        else if (Input.GetKey(crouchKey))
-        {
-            state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
-        }
 
-        // Mode - Sprinting
         else if(grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
         }
 
-        // Mode - Walking
         else if (grounded)
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
         }
 
-        // Mode - Air
         else
         {
             state = MovementState.air;
@@ -178,7 +175,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private IEnumerator SmoothlyLerpMoveSpeed()
     {
-        // smoothly lerp movementSpeed to desired value
         float time = 0;
         float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
         float startValue = moveSpeed;
@@ -193,10 +189,10 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
         private void MovePlayer()
     {
-        // calculate movement direction
+
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        // on slope
+
         if (OnSlope() && !exitingSlope)
         {
             rb.AddForce(moveDirection * moveSpeed * 20f, ForceMode.Force);
@@ -205,33 +201,33 @@ public class PlayerMovementAdvanced : MonoBehaviour
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
 
-        // on ground
+
         else if(grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        // in air
+
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        // turn gravity off while on slope
+
         rb.useGravity = !OnSlope();
     }
 
     private void SpeedControl()
     {
-        // limiting speed on slope
+
         if (OnSlope() && !exitingSlope)
         {
             if (rb.velocity.magnitude > moveSpeed)
                 rb.velocity = rb.velocity.normalized * moveSpeed;
         }
 
-        // limiting speed on ground or in air
+
         else
         {
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-            // limit velocity if needed
+
             if (flatVel.magnitude > moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -244,7 +240,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         exitingSlope = true;
 
-        // reset y velocity
+
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
