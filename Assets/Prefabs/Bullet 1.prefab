@@ -17,8 +17,8 @@ GameObject:
   - component: {fileID: -1983067809548837792}
   - component: {fileID: 5847236319873307871}
   m_Layer: 9
-  m_Name: Bullet
-  m_TagString: Bullet
+  m_Name: Bullet 1
+  m_TagString: Enemy bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 256
-  bounciness: 0.459
+  bounciness: 0
   useGravity: 0
   explosionDamage: 2
   explosionRange: 1
