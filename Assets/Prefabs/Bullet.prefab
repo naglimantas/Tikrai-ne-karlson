@@ -93,6 +93,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: c25b0e0e92e901144a739246c4539336, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4802275915741106101}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: c25b0e0e92e901144a739246c4539336, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1983067809548837792}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: c25b0e0e92e901144a739246c4539336, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5847236319873307871}
   m_SourcePrefab: {fileID: 100100000, guid: c25b0e0e92e901144a739246c4539336, type: 3}
 --- !u!1 &1818561510646820878 stripped
 GameObject:
@@ -172,3 +178,40 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1564634
   m_Center: {x: 0, y: 0, z: 0.1564634}
+--- !u!114 &-1983067809548837792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818561510646820878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417869d896cceb94c8947789e67a7e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  playerHealth: {fileID: 0}
+--- !u!136 &5847236319873307871
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818561510646820878}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15646343
+  m_Height: 0.10000002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.15646343}

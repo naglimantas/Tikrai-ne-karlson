@@ -180,7 +180,9 @@ GameObject:
   - component: {fileID: 7073512444110142622}
   - component: {fileID: 8407072998176645081}
   - component: {fileID: 6544076052575171639}
-  - component: {fileID: 6557477825917038072}
+  - component: {fileID: 1351817538994565561}
+  - component: {fileID: 6082075601318232049}
+  - component: {fileID: 510890966153445826}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -270,7 +272,7 @@ MonoBehaviour:
   state: 0
   sliding: 0
   wallrunning: 0
---- !u!114 &6557477825917038072
+--- !u!114 &1351817538994565561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,23 +281,63 @@ MonoBehaviour:
   m_GameObject: {fileID: 5404288300660990854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 682d6dbf865fa7b4cb27ce5a97c6dcd3, type: 3}
+  m_Script: {fileID: 11500000, guid: bfa1a184eb95f574eada01c5561e5361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 0}
+  playerObj: {fileID: 0}
+  maxSlideTime: 0
+  slideForce: 0
+  slideYScale: 0
+  slideKey: 306
+--- !u!114 &6082075601318232049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5404288300660990854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa787dae6924c94fb13915bbcad6c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 8
-  wallRunForce: 300
-  wallClimbSpeed: 1
-  maxWallRunTime: 2
+    m_Bits: 0
+  wallRunForce: 0
+  wallJumpUpForce: 0
+  wallJumpSideForce: 0
+  wallClimbSpeed: 0
+  maxWallRunTime: 0
+  jumpKey: 32
   upwardsRunKey: 304
   downwardsRunKey: 306
-  wallCheckDistance: 1.5
-  minJumpHeight: 0.7
-  orientation: {fileID: 5761924588186186378}
+  wallCheckDistance: 0
+  minJumpHeight: 0
+  exitWallTime: 0
+  useGravity: 0
+  gravityCounterForce: 0
+  orientation: {fileID: 0}
+  cam: {fileID: 0}
+--- !u!114 &510890966153445826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5404288300660990854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3459b220d28ac45968c99447a985a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 0}
 --- !u!1 &6420300026564752442
 GameObject:
   m_ObjectHideFlags: 0
