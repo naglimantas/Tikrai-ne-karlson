@@ -78,14 +78,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void Update()
     {
-        // ground check
+
         grounded = Physics.CheckSphere(groundCheck.position, groundDistance, whatIsGround);
 
         MyInput();
         SpeedControl();
         StateHandler();
 
-        // handle drag
+
         if (grounded)
             rb.drag = groundDrag;
         else
@@ -102,7 +102,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // when to jump
+
         if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
@@ -112,14 +112,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        // start crouch
+
         if (Input.GetKeyDown(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 1f, ForceMode.Impulse);
         }
 
-        // stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);

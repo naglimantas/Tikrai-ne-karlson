@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 
 /// Dave
@@ -15,6 +16,10 @@ public class ProjectileGunTutorial : MonoBehaviour
     public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
+    public float ClipLength = 1f;
+
+    public AudioSource source;
+    public AudioClip clip;
 
     int bulletsLeft, bulletsShot;
 
@@ -35,6 +40,10 @@ public class ProjectileGunTutorial : MonoBehaviour
 
     public bool allowInvoke = true;
 
+    private void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
     private void Awake()
     {
  
@@ -69,6 +78,7 @@ public class ProjectileGunTutorial : MonoBehaviour
 
             Shoot();
         }
+
     }
 
     private void Shoot()
@@ -78,7 +88,7 @@ public class ProjectileGunTutorial : MonoBehaviour
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); 
         RaycastHit hit;
 
-        //check if ray hits something
+
         Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit))
             targetPoint = hit.point;
@@ -88,12 +98,12 @@ public class ProjectileGunTutorial : MonoBehaviour
   
         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
-        //Calculate spread
+ 
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
 
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0);
+        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0).normalized;
 
         GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); 
 
@@ -102,8 +112,8 @@ public class ProjectileGunTutorial : MonoBehaviour
 
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
         currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
+        source.PlayOneShot(clip);
 
- 
         if (muzzleFlash != null)
         {
             Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);

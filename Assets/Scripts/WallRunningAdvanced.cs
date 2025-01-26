@@ -77,20 +77,19 @@ public class WallRunningAdvanced : MonoBehaviour
 
     private void StateMachine()
     {
-        // Getting Inputs
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
         upwardsRunning = Input.GetKey(upwardsRunKey);
         downwardsRunning = Input.GetKey(downwardsRunKey);
 
-        // State 1 - Wallrunning
+
         if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
         {
             if (!pm.wallrunning)
                 StartWallRun();
 
-            // wallrun timer
             if (wallRunTimer > 0)
                 wallRunTimer -= Time.deltaTime;
 
@@ -100,11 +99,11 @@ public class WallRunningAdvanced : MonoBehaviour
                 exitWallTimer = exitWallTime;
             }
 
-            // wall jump
+
             if (Input.GetKeyDown(jumpKey)) WallJump();
         }
 
-        // State 2 - Exiting
+
         else if (exitingWall)
         {
             if (pm.wallrunning)
@@ -117,7 +116,7 @@ public class WallRunningAdvanced : MonoBehaviour
                 exitingWall = false;
         }
 
-        // State 3 - None
+
         else
         {
             if (pm.wallrunning)
@@ -133,7 +132,6 @@ public class WallRunningAdvanced : MonoBehaviour
 
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // apply camera effects
         cam.DoFov(90f);
         if (wallLeft) cam.DoTilt(-5f);
         if (wallRight) cam.DoTilt(5f);
@@ -150,20 +148,20 @@ public class WallRunningAdvanced : MonoBehaviour
         if ((orientation.forward - wallForward).magnitude > (orientation.forward - -wallForward).magnitude)
             wallForward = -wallForward;
 
-        // forward force
+
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        // upwards/downwards force
+
         if (upwardsRunning)
             rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
         if (downwardsRunning)
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
 
-        // push to wall force
+
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
 
-        // weaken gravity
+
         if (useGravity)
             rb.AddForce(transform.up * gravityCounterForce, ForceMode.Force);
     }
@@ -172,14 +170,14 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         pm.wallrunning = false;
 
-        // reset camera effects
+
         cam.DoFov(80f);
         cam.DoTilt(0f);
     }
 
     private void WallJump()
     {
-        // enter exiting wall state
+
         exitingWall = true;
         exitWallTimer = exitWallTime;
 
@@ -187,7 +185,7 @@ public class WallRunningAdvanced : MonoBehaviour
 
         Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
 
-        // reset y velocity and add force
+
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
     }
