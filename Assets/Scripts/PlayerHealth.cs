@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
     public HealthBar healthBar;
-
     private void Start()
     {
         currentHealth = maxHealth;
@@ -21,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Dead");
         }
     }
 }

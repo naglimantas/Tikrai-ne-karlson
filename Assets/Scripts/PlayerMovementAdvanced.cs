@@ -74,6 +74,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+        DynamicGI.UpdateEnvironment();
     }
 
     private void Update()
